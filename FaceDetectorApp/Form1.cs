@@ -26,7 +26,7 @@ namespace FaceDetectorApp
             RadioButton radioButton = (RadioButton)sender;
             if (radioButton.Checked)
             {
-                MessageBox.Show("Вы выбрали " + radioButton.Text);
+                // delegate := detection funcs
             }
         }
 
