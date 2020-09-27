@@ -22,8 +22,7 @@ namespace FaceDetectorApp
         }
 
         private void Btn_CheckedChanged(object sender, EventArgs e)
-        {
-            // приводим отправителя к элементу типа RadioButton
+        {            
             RadioButton radioButton = (RadioButton)sender;
             if (radioButton.Checked)
             {
