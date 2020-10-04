@@ -131,6 +131,7 @@
             this.btnAnalyze.TabIndex = 4;
             this.btnAnalyze.Text = "Analyze";
             this.btnAnalyze.UseVisualStyleBackColor = true;
+            this.btnAnalyze.Click += new System.EventHandler(this.btnAnalyze_Click);
             // 
             // btnUltra
             // 
@@ -196,7 +197,7 @@
             this.Controls.Add(this.splitContainer1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Detection method comparing";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
