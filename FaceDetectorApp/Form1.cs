@@ -83,19 +83,20 @@ namespace FaceDetectorApp
                 stopwatch.Start();
                 await Task.Run(() => detector.DetectFace(ref bitmap));
                 stopwatch.Stop();
+                label1.Text = $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)} sec";
+                pictureBox1.Image = new Bitmap(bitmap);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Detector {detector.DetectorName} is failed with error {ex.Message}");
+                label1.Text = "Failed";
+                pictureBox1.Image = new Bitmap(pictureBox1.Image.Width, pictureBox1.Image.Height);
                 return;
             }
             finally
             {
                 bitmap?.Dispose();
-            }
-
-            label1.Text = $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)} sec";
-            pictureBox1.Image = bitmap;
+            }            
         }
     }
 }
