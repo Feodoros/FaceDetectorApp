@@ -1,26 +1,31 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using System.Drawing;
+using System.IO;
 
 namespace FaceDetectorApp
 {
-    class HaarCascade
+    public sealed class HaarCascade : IDetector
     {
-        public static Bitmap HaarDetect(string imagePath)
+        public string DetectorName => "HaarCascade";
+
+        public string ConfigPath => Config.HaarPath;
+
+        public bool IsModelExists() => File.Exists(ConfigPath);
+
+        public void DetectFace(ref Bitmap bitmap)
         {
-            CascadeClassifier classifierFace = new CascadeClassifier(Config.HaarPath);
+            CascadeClassifier classifierFace = new CascadeClassifier(ConfigPath);
 
-            using Image<Gray, byte> image = new Image<Gray, byte>(imagePath);
+            using Image<Gray, byte> emguImage = bitmap.ToImage<Gray, byte>();
+            Rectangle[] faces = classifierFace.DetectMultiScale(emguImage, 1.1, 4);
 
-            Rectangle[] faces = classifierFace.DetectMultiScale(image, 1.1, 4);
-
-            using Image<Bgr, byte> newImage = new Image<Bgr, byte>(imagePath);
-
-            foreach (var face in faces)
+            using Image<Bgr, byte> colorImage = bitmap.ToImage<Bgr, byte>();
+            foreach (Rectangle face in faces)
             {
-                newImage.Draw(face, new Bgr(0, 255, 0), 2);
+                colorImage.Draw(face, new Bgr(0, 255, 0), 2);
             }
-            return newImage.AsBitmap();
+            bitmap = colorImage.AsBitmap();
         }
     }
 }
