@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SsdDetector", "ssd\SsdDetec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DetectorHelper", "DetectorHelper\DetectorHelper.csproj", "{4E1FF14B-25EB-425B-BEC8-AAAFF2C16560}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetinaDetector", "RetinaDetector\RetinaDetector.csproj", "{F8998350-4724-4F9F-A122-938D86CF8C9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
