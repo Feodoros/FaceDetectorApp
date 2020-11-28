@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,9 +11,9 @@ namespace FaceDetectorApp
 {
     public partial class Form1 : Form
     {
-        private List<RadioButton> detectorsButtons;
-        private List<Button> controlButtons;
-        private List<ButtonBase> allButtons;
+        private readonly List<RadioButton> detectorsButtons;
+        private readonly List<Button> controlButtons;
+        private readonly List<ButtonBase> allButtons;
         private IDetector detector;
         private Bitmap originalImage;
 
@@ -99,7 +98,7 @@ namespace FaceDetectorApp
             }
 
             Stopwatch stopwatch = new Stopwatch();
-            Bitmap bitmap = new Bitmap(pictureBox1.Image);
+            Bitmap bitmap = new Bitmap(originalImage ?? pictureBox1.Image);
 
             try
             {
@@ -129,16 +128,18 @@ namespace FaceDetectorApp
 
         private void btnColorHaar_Click(object sender, EventArgs e)
         {
-            ColorDialog MyDialog = new ColorDialog();
-            // Keeps the user from selecting a custom color.
-            MyDialog.AllowFullOpen = false;
-            // Allows the user to get help. (The default is false.)
-            MyDialog.CustomColors = new int[]{Convert.ToInt32($"{new Random().Next(0, 255)}{new Random().Next(0, 255)}{new Random().Next(0, 255)}"), 15195440, 16107657, 1836924,
+            ColorDialog MyDialog = new ColorDialog
+            {
+                // Keeps the user from selecting a custom color.
+                AllowFullOpen = false,
+                // Allows the user to get help. (The default is false.)
+                CustomColors = new int[]{Convert.ToInt32($"{new Random().Next(0, 255)}{new Random().Next(0, 255)}{new Random().Next(0, 255)}"), 15195440, 16107657, 1836924,
    3758726, 12566463, 7526079, 7405793, 6945974, 241502, 2296476, 5130294,
-   3102017, 7324121, 14993507, 11730944,};
-            MyDialog.FullOpen = false;
-            MyDialog.ShowHelp = false;
-            MyDialog.SolidColorOnly = true;
+   3102017, 7324121, 14993507, 11730944,},
+                FullOpen = false,
+                ShowHelp = false,
+                SolidColorOnly = true
+            };
             // Sets the initial color select to the current text color.
             //MyDialog.Color = textBox1.ForeColor;
 
