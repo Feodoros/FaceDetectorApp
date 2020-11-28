@@ -127,6 +127,10 @@
       <Project>{e84178f4-dedf-4063-aff0-7b4a616ea7ce}</Project>
       <Name>HaarDetector</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RetinaDetector\RetinaDetector.csproj">
+      <Project>{F8998350-4724-4F9F-A122-938D86CF8C9E}</Project>
+      <Name>RetinaDetector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ssd\SsdDetector.csproj">
       <Project>{3b06e36f-b148-42b2-b310-420897c7fb7c}</Project>
       <Name>SsdDetector</Name>

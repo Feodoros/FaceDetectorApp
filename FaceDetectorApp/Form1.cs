@@ -1,11 +1,14 @@
-﻿using DetectorHelper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DetectorHelper;
+using Haar;
+using RetinaDetector;
+using SsdDetector;
 
 namespace FaceDetectorApp
 {
@@ -39,10 +42,10 @@ namespace FaceDetectorApp
                     detector =
                         radioButton.Text switch
                         {
-                            "Haar Cascades" => new Haar.HaarCascade(),
-                            "SSD-MobileNet" => new SsdDetector.SSD(),
-                            /*"CenterFace" => HaarCascade.HaarDetect,
-                            "UltraFace" => HaarCascade.HaarDetect,*/
+                            "Haar Cascades" => new HaarCascade(),
+                            "SSD-MobileNet" => new SSD(),
+                            /*"CenterFace" => HaarCascade.HaarDetect,*/
+                            "UltraFace" => new UltraFace(),
                             _ => throw new Exception("Wrong method name."),
                         };
 
@@ -111,8 +114,7 @@ namespace FaceDetectorApp
             catch (Exception ex)
             {
                 MessageBox.Show($"Detector {detector.DetectorName} is failed with error {ex.Message}");
-                label1.Text = "Failed";
-                //pictureBox1.Image = new Bitmap(pictureBox1.Image.Width, pictureBox1.Image.Height);
+                label1.Text = "Failed";                
                 return;
             }
             finally
