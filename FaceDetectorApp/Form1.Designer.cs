@@ -32,6 +32,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAnalyze = new System.Windows.Forms.Button();
@@ -40,6 +41,10 @@
             this.btnSsd = new System.Windows.Forms.RadioButton();
             this.btnHaar = new System.Windows.Forms.RadioButton();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.btnColorHaar = new System.Windows.Forms.Button();
+            this.btnColorUltra = new System.Windows.Forms.Button();
+            this.btnColorCenter = new System.Windows.Forms.Button();
+            this.btnColorSsd = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -64,6 +69,11 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnColorSsd);
+            this.splitContainer1.Panel2.Controls.Add(this.btnColorCenter);
+            this.splitContainer1.Panel2.Controls.Add(this.btnColorUltra);
+            this.splitContainer1.Panel2.Controls.Add(this.btnColorHaar);
+            this.splitContainer1.Panel2.Controls.Add(this.btnClear);
             this.splitContainer1.Panel2.Controls.Add(this.btnSave);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.btnAnalyze);
@@ -71,8 +81,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.btnCenter);
             this.splitContainer1.Panel2.Controls.Add(this.btnSsd);
             this.splitContainer1.Panel2.Controls.Add(this.btnHaar);
-            this.splitContainer1.Size = new System.Drawing.Size(800, 450);
-            this.splitContainer1.SplitterDistance = 640;
+            this.splitContainer1.Size = new System.Drawing.Size(826, 450);
+            this.splitContainer1.SplitterDistance = 634;
             this.splitContainer1.TabIndex = 0;
             // 
             // pictureBox1
@@ -80,7 +90,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(636, 422);
+            this.pictureBox1.Size = new System.Drawing.Size(630, 422);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -91,7 +101,7 @@
             this.openToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(636, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(630, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -102,10 +112,21 @@
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
+            // btnClear
+            // 
+            this.btnClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnClear.Location = new System.Drawing.Point(21, 368);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(143, 52);
+            this.btnClear.TabIndex = 7;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnSave.Location = new System.Drawing.Point(6, 336);
+            this.btnSave.Location = new System.Drawing.Point(21, 298);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(143, 52);
             this.btnSave.TabIndex = 6;
@@ -116,7 +137,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(6, 192);
+            this.label1.Location = new System.Drawing.Point(21, 190);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 16);
             this.label1.TabIndex = 5;
@@ -125,7 +146,7 @@
             // btnAnalyze
             // 
             this.btnAnalyze.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnAnalyze.Location = new System.Drawing.Point(6, 254);
+            this.btnAnalyze.Location = new System.Drawing.Point(21, 231);
             this.btnAnalyze.Name = "btnAnalyze";
             this.btnAnalyze.Size = new System.Drawing.Size(143, 52);
             this.btnAnalyze.TabIndex = 4;
@@ -141,7 +162,6 @@
             this.btnUltra.Name = "btnUltra";
             this.btnUltra.Size = new System.Drawing.Size(96, 21);
             this.btnUltra.TabIndex = 3;
-            this.btnUltra.TabStop = true;
             this.btnUltra.Text = "UltraFace";
             this.btnUltra.UseVisualStyleBackColor = true;
             this.btnUltra.CheckedChanged += new System.EventHandler(this.Btn_CheckedChanged);
@@ -154,7 +174,6 @@
             this.btnCenter.Name = "btnCenter";
             this.btnCenter.Size = new System.Drawing.Size(109, 21);
             this.btnCenter.TabIndex = 2;
-            this.btnCenter.TabStop = true;
             this.btnCenter.Text = "CenterFace";
             this.btnCenter.UseVisualStyleBackColor = true;
             this.btnCenter.CheckedChanged += new System.EventHandler(this.Btn_CheckedChanged);
@@ -167,7 +186,6 @@
             this.btnSsd.Name = "btnSsd";
             this.btnSsd.Size = new System.Drawing.Size(135, 21);
             this.btnSsd.TabIndex = 1;
-            this.btnSsd.TabStop = true;
             this.btnSsd.Text = "SSD-MobileNet";
             this.btnSsd.UseVisualStyleBackColor = true;
             this.btnSsd.CheckedChanged += new System.EventHandler(this.Btn_CheckedChanged);
@@ -175,6 +193,7 @@
             // btnHaar
             // 
             this.btnHaar.AutoSize = true;
+            this.btnHaar.Checked = true;
             this.btnHaar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnHaar.Location = new System.Drawing.Point(6, 26);
             this.btnHaar.Name = "btnHaar";
@@ -189,11 +208,44 @@
             // 
             this.openFileDialog1.Filter = "Images|*.bmp;*png;*.jpg";
             // 
+            // btnColorHaar
+            // 
+            this.btnColorHaar.Location = new System.Drawing.Point(148, 28);
+            this.btnColorHaar.Name = "btnColorHaar";
+            this.btnColorHaar.Size = new System.Drawing.Size(19, 19);
+            this.btnColorHaar.TabIndex = 2;
+            this.btnColorHaar.UseVisualStyleBackColor = true;
+            this.btnColorHaar.Click += new System.EventHandler(this.btnColorHaar_Click);
+            // 
+            // btnColorUltra
+            // 
+            this.btnColorUltra.Location = new System.Drawing.Point(148, 136);
+            this.btnColorUltra.Name = "btnColorUltra";
+            this.btnColorUltra.Size = new System.Drawing.Size(19, 19);
+            this.btnColorUltra.TabIndex = 8;
+            this.btnColorUltra.UseVisualStyleBackColor = true;
+            // 
+            // btnColorCenter
+            // 
+            this.btnColorCenter.Location = new System.Drawing.Point(148, 101);
+            this.btnColorCenter.Name = "btnColorCenter";
+            this.btnColorCenter.Size = new System.Drawing.Size(19, 19);
+            this.btnColorCenter.TabIndex = 9;
+            this.btnColorCenter.UseVisualStyleBackColor = true;
+            // 
+            // btnColorSsd
+            // 
+            this.btnColorSsd.Location = new System.Drawing.Point(148, 64);
+            this.btnColorSsd.Name = "btnColorSsd";
+            this.btnColorSsd.Size = new System.Drawing.Size(19, 19);
+            this.btnColorSsd.TabIndex = 10;
+            this.btnColorSsd.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(826, 450);
             this.Controls.Add(this.splitContainer1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
@@ -225,6 +277,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnAnalyze;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnColorSsd;
+        private System.Windows.Forms.Button btnColorCenter;
+        private System.Windows.Forms.Button btnColorUltra;
+        private System.Windows.Forms.Button btnColorHaar;
     }
 }
 
