@@ -1,12 +1,10 @@
-﻿using System;
+﻿using DetectorHelper;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,40 +12,54 @@ namespace FaceDetectorApp
 {
     public partial class Form1 : Form
     {
+        private List<RadioButton> detectorsButtons;
+        private List<Button> controlButtons;
+        private List<ButtonBase> allButtons;
+        private IDetector detector;
+        private Bitmap originalImage;
+
         public Form1()
         {
             InitializeComponent();
 
-            btnAnalyze.Enabled = btnSave.Enabled = false;
+            btnAnalyze.Enabled = btnSave.Enabled = btnClear.Enabled = false;
             btnHaar.Enabled = btnSsd.Enabled = btnUltra.Enabled = btnCenter.Enabled = false;
+            detectorsButtons = splitContainer1.Panel2.Controls.OfType<RadioButton>().ToList();
+            controlButtons = splitContainer1.Panel2.Controls.OfType<Button>().ToList();
+            allButtons = detectorsButtons.OfType<ButtonBase>().Concat(controlButtons.OfType<ButtonBase>()).ToList();
         }
-        
-        private IDetector detector;
 
         private void Btn_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton radioButton = (RadioButton)sender;
             if (radioButton.Checked)
             {
+                detector?.Dispose();
                 try
                 {
                     detector =
                         radioButton.Text switch
                         {
-                            "Haar Cascades" => new HaarCascade(),
-                            /*"SSD-MobileNet" => HaarCascade.HaarDetect,
-                            "CenterFace" => HaarCascade.HaarDetect,
+                            "Haar Cascades" => new Haar.HaarCascade(),
+                            "SSD-MobileNet" => new SsdDetector.SSD(),
+                            /*"CenterFace" => HaarCascade.HaarDetect,
                             "UltraFace" => HaarCascade.HaarDetect,*/
                             _ => throw new Exception("Wrong method name."),
                         };
 
-                    btnAnalyze.Enabled = true;
-                    btnSave.Enabled = true;
+                    controlButtons.ForEach(btn =>
+                    {
+                        btn.Enabled = true;
+                    });
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    btnAnalyze.Enabled = btnSave.Enabled = false;
+                    controlButtons.ForEach(btn =>
+                    {
+                        btn.Enabled = false;
+                    });
+
                     return;
                 }
             }
@@ -57,21 +69,32 @@ namespace FaceDetectorApp
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                pictureBox1.Image = Image.FromFile(openFileDialog1.FileName);
+                originalImage = new Bitmap(Image.FromFile(openFileDialog1.FileName));
+                pictureBox1.Image = originalImage;
             }
             btnHaar.Enabled = btnSsd.Enabled = btnUltra.Enabled = btnCenter.Enabled = true;
         }
 
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
+            allButtons.ForEach(btn =>
+            {
+                btn.Enabled = false;
+            });
+
             Run();
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = originalImage;
         }
 
         private async void Run()
         {
-            if (!detector.IsModelExists())
+            if (!detector.TryInitialize())
             {
-                MessageBox.Show($"{detector.DetectorName} detector's model is not found.");
+                MessageBox.Show($"{detector.DetectorName} detector initialization failed.");
                 return;
             }
 
@@ -83,19 +106,45 @@ namespace FaceDetectorApp
                 stopwatch.Start();
                 await Task.Run(() => detector.DetectFace(ref bitmap));
                 stopwatch.Stop();
+                label1.Text = $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)} sec";
+                pictureBox1.Image = new Bitmap(bitmap);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Detector {detector.DetectorName} is failed with error {ex.Message}");
+                label1.Text = "Failed";
+                //pictureBox1.Image = new Bitmap(pictureBox1.Image.Width, pictureBox1.Image.Height);
                 return;
             }
             finally
             {
                 bitmap?.Dispose();
+                allButtons.ForEach(btn =>
+                {
+                    btn.Enabled = true;
+                });
             }
+        }
 
-            label1.Text = $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)} sec";
-            pictureBox1.Image = bitmap;
+
+        private void btnColorHaar_Click(object sender, EventArgs e)
+        {
+            ColorDialog MyDialog = new ColorDialog();
+            // Keeps the user from selecting a custom color.
+            MyDialog.AllowFullOpen = false;
+            // Allows the user to get help. (The default is false.)
+            MyDialog.CustomColors = new int[]{Convert.ToInt32($"{new Random().Next(0, 255)}{new Random().Next(0, 255)}{new Random().Next(0, 255)}"), 15195440, 16107657, 1836924,
+   3758726, 12566463, 7526079, 7405793, 6945974, 241502, 2296476, 5130294,
+   3102017, 7324121, 14993507, 11730944,};
+            MyDialog.FullOpen = false;
+            MyDialog.ShowHelp = false;
+            MyDialog.SolidColorOnly = true;
+            // Sets the initial color select to the current text color.
+            //MyDialog.Color = textBox1.ForeColor;
+
+            // Update the text box color if the user clicks OK 
+            if (MyDialog.ShowDialog() == DialogResult.OK)
+                btnColorHaar.BackColor = MyDialog.Color;
         }
     }
 }
