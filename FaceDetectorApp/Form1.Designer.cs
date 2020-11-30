@@ -32,6 +32,10 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnColorSsd = new System.Windows.Forms.Button();
+            this.btnColorCenter = new System.Windows.Forms.Button();
+            this.btnColorUltra = new System.Windows.Forms.Button();
+            this.btnColorHaar = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,10 +45,6 @@
             this.btnSsd = new System.Windows.Forms.RadioButton();
             this.btnHaar = new System.Windows.Forms.RadioButton();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.btnColorHaar = new System.Windows.Forms.Button();
-            this.btnColorUltra = new System.Windows.Forms.Button();
-            this.btnColorCenter = new System.Windows.Forms.Button();
-            this.btnColorSsd = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -111,6 +111,39 @@
             this.openToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // btnColorSsd
+            // 
+            this.btnColorSsd.Location = new System.Drawing.Point(148, 64);
+            this.btnColorSsd.Name = "btnColorSsd";
+            this.btnColorSsd.Size = new System.Drawing.Size(19, 19);
+            this.btnColorSsd.TabIndex = 10;
+            this.btnColorSsd.UseVisualStyleBackColor = true;
+            // 
+            // btnColorCenter
+            // 
+            this.btnColorCenter.Location = new System.Drawing.Point(148, 101);
+            this.btnColorCenter.Name = "btnColorCenter";
+            this.btnColorCenter.Size = new System.Drawing.Size(19, 19);
+            this.btnColorCenter.TabIndex = 9;
+            this.btnColorCenter.UseVisualStyleBackColor = true;
+            // 
+            // btnColorUltra
+            // 
+            this.btnColorUltra.Location = new System.Drawing.Point(148, 136);
+            this.btnColorUltra.Name = "btnColorUltra";
+            this.btnColorUltra.Size = new System.Drawing.Size(19, 19);
+            this.btnColorUltra.TabIndex = 8;
+            this.btnColorUltra.UseVisualStyleBackColor = true;
+            // 
+            // btnColorHaar
+            // 
+            this.btnColorHaar.Location = new System.Drawing.Point(148, 28);
+            this.btnColorHaar.Name = "btnColorHaar";
+            this.btnColorHaar.Size = new System.Drawing.Size(19, 19);
+            this.btnColorHaar.TabIndex = 2;
+            this.btnColorHaar.UseVisualStyleBackColor = true;
+            this.btnColorHaar.Click += new System.EventHandler(this.btnColorHaar_Click);
             // 
             // btnClear
             // 
@@ -193,13 +226,11 @@
             // btnHaar
             // 
             this.btnHaar.AutoSize = true;
-            this.btnHaar.Checked = true;
             this.btnHaar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnHaar.Location = new System.Drawing.Point(6, 26);
             this.btnHaar.Name = "btnHaar";
             this.btnHaar.Size = new System.Drawing.Size(136, 21);
             this.btnHaar.TabIndex = 0;
-            this.btnHaar.TabStop = true;
             this.btnHaar.Text = "Haar Cascades";
             this.btnHaar.UseVisualStyleBackColor = true;
             this.btnHaar.CheckedChanged += new System.EventHandler(this.Btn_CheckedChanged);
@@ -207,39 +238,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "Images|*.bmp;*png;*.jpg";
-            // 
-            // btnColorHaar
-            // 
-            this.btnColorHaar.Location = new System.Drawing.Point(148, 28);
-            this.btnColorHaar.Name = "btnColorHaar";
-            this.btnColorHaar.Size = new System.Drawing.Size(19, 19);
-            this.btnColorHaar.TabIndex = 2;
-            this.btnColorHaar.UseVisualStyleBackColor = true;
-            this.btnColorHaar.Click += new System.EventHandler(this.btnColorHaar_Click);
-            // 
-            // btnColorUltra
-            // 
-            this.btnColorUltra.Location = new System.Drawing.Point(148, 136);
-            this.btnColorUltra.Name = "btnColorUltra";
-            this.btnColorUltra.Size = new System.Drawing.Size(19, 19);
-            this.btnColorUltra.TabIndex = 8;
-            this.btnColorUltra.UseVisualStyleBackColor = true;
-            // 
-            // btnColorCenter
-            // 
-            this.btnColorCenter.Location = new System.Drawing.Point(148, 101);
-            this.btnColorCenter.Name = "btnColorCenter";
-            this.btnColorCenter.Size = new System.Drawing.Size(19, 19);
-            this.btnColorCenter.TabIndex = 9;
-            this.btnColorCenter.UseVisualStyleBackColor = true;
-            // 
-            // btnColorSsd
-            // 
-            this.btnColorSsd.Location = new System.Drawing.Point(148, 64);
-            this.btnColorSsd.Name = "btnColorSsd";
-            this.btnColorSsd.Size = new System.Drawing.Size(19, 19);
-            this.btnColorSsd.TabIndex = 10;
-            this.btnColorSsd.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
