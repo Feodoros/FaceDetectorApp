@@ -44,6 +44,7 @@ namespace FaceDetectorWpf
                 ToggleAllButtons = ToggleAllButtons,
                 GetImage = () => OriginalImage,
                 SetImage = (newImage) => { imageBox.Source = BitmapToImageSource(newImage); }
+                SetElapsedTime = (time) => { elapsedTime.Content = time; }
             };
             _updatePictureSetState = viewModel.UpdatePictureSetState;
             DataContext = viewModel;

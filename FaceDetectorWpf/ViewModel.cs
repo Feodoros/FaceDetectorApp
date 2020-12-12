@@ -136,8 +136,8 @@ namespace FaceDetectorWpf
                 stopwatch.Start();
                 await Task.Run(() => _detector.DetectFace(ref bitmap));
                 stopwatch.Stop();
-                //label1.Text = $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)} sec";
-                SetImage(new Bitmap(bitmap));
+                SetElapsedTime?.Invoke($"Elapsed time: {string.Format("{0:0.00}", stopwatch.Elapsed.Seconds + stopwatch.Elapsed.Milliseconds / 1000.00)}");
+                SetImage?.Invoke(new Bitmap(bitmap));
             }
             catch (Exception ex)
             {
