@@ -14,19 +14,21 @@ using System.Diagnostics;
 
 namespace FaceDetectorWpf
 {
-    class ViewModel
+    class ViewModel : INotifyPropertyChanged
     {
         public Action<bool> ToggleControlsButtons;
         public Action<bool> ToggleDetectorsButtons;
         public Action<bool> ToggleAllButtons;
         public Action<Bitmap> SetImage;
-
         public Func<Bitmap> GetImage;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #region Fields
         private ICommand _chooseDetectorCommand;
         private ICommand _analyzeCommand;
         private IDetector _detector;
+        private bool _isPictureSet;
+
         #endregion
 
         public ICommand ChooseDetectorCommand
@@ -51,6 +53,26 @@ namespace FaceDetectorWpf
                 }
                 return _analyzeCommand;
             }
+        }
+
+        public bool IsPictureSet
+        {
+            get
+            {
+                return _isPictureSet;
+            }
+            private set
+            {
+                _isPictureSet = value;
+                RaisePropertyChanged("IsPictureChoosen");
+            }
+        }
+
+        public bool IsAnalyzing { get; set; }
+
+        public void UpdatePictureSetState(bool isSet)
+        {
+            IsPictureSet = isSet;
         }
 
         private void SetDetector(object parameter)
@@ -91,6 +113,11 @@ namespace FaceDetectorWpf
             {
                 return false;
             }
+        }
+
+        private void RaisePropertyChanged(string PropertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
 
         private async void RunAsync(object parameter)

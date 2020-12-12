@@ -48,7 +48,7 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox x:Name="detectorsButtons" HorizontalAlignment="Left" Height="Auto" Grid.Column ="1" Grid.Row ="1">
+            <Viewbox x:Name="detectorsButtons" HorizontalAlignment="Left" Height="Auto" Grid.Column ="1" Grid.Row ="1" IsEnabled="{Binding Path=IsPictureChoosen}">
                 <Grid>
                     <Grid.RowDefinitions >
                         <RowDefinition Height="5*"/>

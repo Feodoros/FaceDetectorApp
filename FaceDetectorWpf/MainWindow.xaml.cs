@@ -24,10 +24,10 @@ namespace FaceDetectorWpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ViewModel _viewModel;
         private readonly List<RadioButton> _detectorsButtons = new List<RadioButton>() { };
         private readonly List<Button> _controlButtons = new List<Button>() { };
         private List<ButtonBase> _allButtons = new List<ButtonBase>() { };
+        private Action<bool> _updatePictureSetState;
 
         private Bitmap OriginalImage { get; set; }
 
@@ -37,7 +37,7 @@ namespace FaceDetectorWpf
             UniteButtons();
             ToggleControlsButtons(false);
 
-            _viewModel = new ViewModel
+            ViewModel viewModel = new ViewModel
             {
                 ToggleControlsButtons = ToggleControlsButtons,
                 ToggleDetectorsButtons = ToggleDetectorsButtons,
@@ -45,7 +45,8 @@ namespace FaceDetectorWpf
                 GetImage = () => OriginalImage,
                 SetImage = (newImage) => { imageBox.Source = BitmapToImageSource(newImage); }
             };
-            DataContext = _viewModel;
+            _updatePictureSetState = viewModel.UpdatePictureSetState;
+            DataContext = viewModel;
         }
 
         #region Buttons
@@ -90,12 +91,15 @@ namespace FaceDetectorWpf
 
         private void OpenFile(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*"
+            };
             if (openFileDialog.ShowDialog() == true)
             {
                 OriginalImage = new Bitmap(System.Drawing.Image.FromFile(openFileDialog.FileName));
                 imageBox.Source = BitmapToImageSource(OriginalImage);
+                _updatePictureSetState?.Invoke(true);
             }
         }
 
