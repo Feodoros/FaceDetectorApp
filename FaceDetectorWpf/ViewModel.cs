@@ -16,11 +16,9 @@ namespace FaceDetectorWpf
 {
     class ViewModel : INotifyPropertyChanged
     {
-        public Action<bool> ToggleControlsButtons;
-        public Action<bool> ToggleDetectorsButtons;
-        public Action<bool> ToggleAllButtons;
         public Action<Bitmap> SetImage;
         public Func<Bitmap> GetImage;
+        public Action<string> SetElapsedTime;
         public event PropertyChangedEventHandler PropertyChanged;
 
         #region Fields
@@ -28,6 +26,7 @@ namespace FaceDetectorWpf
         private ICommand _analyzeCommand;
         private IDetector _detector;
         private bool _isPictureSet;
+        private bool _isAnalyzingNow;
 
         #endregion
 
@@ -55,7 +54,7 @@ namespace FaceDetectorWpf
             }
         }
 
-        public bool IsPictureSet
+        public bool IsDetectorButtonsEnabled
         {
             get
             {
@@ -64,15 +63,26 @@ namespace FaceDetectorWpf
             private set
             {
                 _isPictureSet = value;
-                RaisePropertyChanged("IsPictureChoosen");
+                RaisePropertyChanged("IsDetectorButtonsEnabled");
             }
         }
 
-        public bool IsAnalyzing { get; set; }
-
-        public void UpdatePictureSetState(bool isSet)
+        public bool IsControlButtonsEnabled
         {
-            IsPictureSet = isSet;
+            get
+            {
+                return _isAnalyzingNow;
+            }
+            private set
+            {
+                _isAnalyzingNow = value;
+                RaisePropertyChanged("IsControlButtonsEnabled");
+            }
+        }
+
+        public void UpdateDetectorButtonsEnableState(bool isEnabled)
+        {
+            IsDetectorButtonsEnabled = isEnabled;
         }
 
         private void SetDetector(object parameter)
@@ -95,7 +105,7 @@ namespace FaceDetectorWpf
                     default:
                         throw new Exception("Wrong method name.");
                 }
-                ToggleControlsButtons?.Invoke(true);
+                IsControlButtonsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -122,9 +132,15 @@ namespace FaceDetectorWpf
 
         private async void RunAsync(object parameter)
         {
+            if (_detector == null)
+            {
+                return;
+            }
+
+            ToggleButtonsEnableState(false);
             if (!_detector.TryInitialize())
             {
-                //MessageBox.Show($"{detector.DetectorName} detector initialization failed.");
+                ToggleButtonsEnableState(true);
                 return;
             }
 
@@ -148,11 +164,18 @@ namespace FaceDetectorWpf
             finally
             {
                 bitmap?.Dispose();
+                ToggleButtonsEnableState(true);
                 /*allButtons.ForEach(btn =>
                 {
                     btn.Enabled = true;
                 });*/
             }
+        }
+
+        private void ToggleButtonsEnableState(bool isEnabled)
+        {
+            IsControlButtonsEnabled = isEnabled;
+            IsDetectorButtonsEnabled = isEnabled;
         }
     }
 }

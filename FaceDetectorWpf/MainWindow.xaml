@@ -48,7 +48,7 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox x:Name="detectorsButtons" HorizontalAlignment="Left" Height="Auto" Grid.Column ="1" Grid.Row ="1" IsEnabled="{Binding Path=IsPictureChoosen}">
+            <Viewbox x:Name="detectorsButtons" HorizontalAlignment="Left" Height="Auto" Grid.Column ="1" Grid.Row ="1" IsEnabled="{Binding Path=IsDetectorButtonsEnabled}">
                 <Grid>
                     <Grid.RowDefinitions >
                         <RowDefinition Height="5*"/>
@@ -87,9 +87,9 @@
                 </Grid>
             </Viewbox>
 
-            <Label VerticalAlignment="Center" Content="Elapsed time: " Grid.Column ="1" Grid.Row ="2" Height="Auto" Width="Auto" FontSize="20"/>
+            <Label Name="elapsedTime" VerticalAlignment="Center" Content="Elapsed time: " Grid.Column ="1" Grid.Row ="2" Height="Auto" Width="Auto" FontSize="20"/>
 
-            <Viewbox Height="Auto" Width="Auto" HorizontalAlignment="Center" Grid.Column ="1" Grid.Row ="3">
+            <Viewbox Height="Auto" Width="Auto" HorizontalAlignment="Center" Grid.Column ="1" Grid.Row ="3" IsEnabled="{Binding Path=IsControlButtonsEnabled}">
                 <Grid>
                     <Grid.RowDefinitions >
                         <RowDefinition Height="5*"/>

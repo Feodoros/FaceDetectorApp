@@ -24,71 +24,22 @@ namespace FaceDetectorWpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly List<RadioButton> _detectorsButtons = new List<RadioButton>() { };
-        private readonly List<Button> _controlButtons = new List<Button>() { };
-        private List<ButtonBase> _allButtons = new List<ButtonBase>() { };
-        private Action<bool> _updatePictureSetState;
+        private readonly Action<bool> _updateDetectorButtonsEnableState;
 
         private Bitmap OriginalImage { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            UniteButtons();
-            ToggleControlsButtons(false);
-
             ViewModel viewModel = new ViewModel
             {
-                ToggleControlsButtons = ToggleControlsButtons,
-                ToggleDetectorsButtons = ToggleDetectorsButtons,
-                ToggleAllButtons = ToggleAllButtons,
                 GetImage = () => OriginalImage,
-                SetImage = (newImage) => { imageBox.Source = BitmapToImageSource(newImage); }
+                SetImage = (newImage) => { imageBox.Source = BitmapToImageSource(newImage); },
                 SetElapsedTime = (time) => { elapsedTime.Content = time; }
             };
-            _updatePictureSetState = viewModel.UpdatePictureSetState;
+            _updateDetectorButtonsEnableState = viewModel.UpdateDetectorButtonsEnableState;
             DataContext = viewModel;
         }
-
-        #region Buttons
-        private void UniteButtons()
-        {
-            _detectorsButtons.Add(btnHaar);
-            _detectorsButtons.Add(btnSsd);
-            _detectorsButtons.Add(btnRetina);
-            _detectorsButtons.Add(btnCenter);
-
-            _controlButtons.Add(btnAnalyze);
-            _controlButtons.Add(btnSave);
-            _controlButtons.Add(btnClear);
-
-            _allButtons = _detectorsButtons.OfType<ButtonBase>().Concat(_controlButtons.OfType<ButtonBase>()).ToList();
-        }
-
-        private void ToggleDetectorsButtons(bool enabled)
-        {
-            foreach (RadioButton button in _detectorsButtons)
-            {
-                button.IsEnabled = enabled;
-            }
-        }
-
-        private void ToggleControlsButtons(bool enabled)
-        {
-            foreach (Button button in _controlButtons)
-            {
-                button.IsEnabled = enabled;
-            }
-        }
-
-        private void ToggleAllButtons(bool enabled)
-        {
-            foreach (ButtonBase button in _allButtons)
-            {
-                button.IsEnabled = enabled;
-            }
-        }
-        #endregion
 
         private void OpenFile(object sender, RoutedEventArgs e)
         {
@@ -100,7 +51,7 @@ namespace FaceDetectorWpf
             {
                 OriginalImage = new Bitmap(System.Drawing.Image.FromFile(openFileDialog.FileName));
                 imageBox.Source = BitmapToImageSource(OriginalImage);
-                _updatePictureSetState?.Invoke(true);
+                _updateDetectorButtonsEnableState?.Invoke(true);
             }
         }
 
