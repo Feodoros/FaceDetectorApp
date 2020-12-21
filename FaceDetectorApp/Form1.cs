@@ -106,7 +106,7 @@ namespace FaceDetectorApp
             try
             {
                 stopwatch.Start();
-                await Task.Run(() => detector.DetectFace(ref bitmap));
+                //await Task.Run(() => detector.DetectFace(ref bitmap));
                 stopwatch.Stop();
                 label1.Text = $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)} sec";
                 pictureBox1.Image = new Bitmap(bitmap);
@@ -148,6 +148,11 @@ namespace FaceDetectorApp
             // Update the text box color if the user clicks OK 
             if (MyDialog.ShowDialog() == DialogResult.OK)
                 btnColorHaar.BackColor = MyDialog.Color;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
