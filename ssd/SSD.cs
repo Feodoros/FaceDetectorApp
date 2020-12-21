@@ -5,6 +5,7 @@ using Tensorflow;
 using static Tensorflow.Binding;
 using NumSharp;
 using DetectorHelper;
+using System.Collections.Generic;
 
 namespace SsdDetector
 {
@@ -20,11 +21,14 @@ namespace SsdDetector
         private Tensor PreprocessOutput;
         private Tensor ImgTensor;
 
+        private readonly Pen _pen = new Pen(Color.FromArgb(0, 255, 255), 3);
         private readonly double tolerance = 0.5;
-        
+
         public string DetectorName => "Single-Shot";
 
-        public string ConfigPath => Config.SsdPath;        
+        public string ConfigPath => Config.SsdPath;
+
+        public Pen DrawPen => _pen;
 
         public bool IsModelExists() => File.Exists(ConfigPath);
 
@@ -68,10 +72,11 @@ namespace SsdDetector
             }
         }
 
-        public void DetectFace(ref Bitmap bitmap)
+        public List<Face> DetectFaces(Bitmap bitmap)
         {
             Initialize();
 
+            List<Face> faces = new List<Face>();
             int cols = bitmap.Width;
             int rows = bitmap.Height;
 
@@ -91,19 +96,19 @@ namespace SsdDetector
             var boxes = results[1].GetData<float>();
             var id = np.squeeze(results[3]).GetData<float>();
 
-            using Graphics g = Graphics.FromImage(bitmap);
-            Pen pen = new Pen(Color.FromArgb(0, 255, 255), 2);
-
             for (int i = 0; i < scores.size; i++)
             {
                 float score = scores.MoveNext();
                 if (score > tolerance)
                 {
-                    Rectangle rectangle = Rectangle.FromLTRB(Convert.ToInt32(boxes[i * 4 + 1] * cols), Convert.ToInt32(boxes[i * 4] * rows),
-                                                             Convert.ToInt32(boxes[i * 4 + 3] * cols), Convert.ToInt32(boxes[i * 4 + 2] * rows));
-                    g.DrawRectangle(pen, rectangle);
+                    faces.Add(new Face(Convert.ToInt32(boxes[i * 4 + 1] * cols),
+                                       Convert.ToInt32(boxes[i * 4] * rows),
+                                       Convert.ToInt32(boxes[i * 4 + 3] * cols) - Convert.ToInt32(boxes[i * 4 + 1] * cols),
+                                       Convert.ToInt32(boxes[i * 4 + 2] * rows) - Convert.ToInt32(boxes[i * 4] * rows),
+                                       DrawPen));
                 }
             }
+            return faces;
         }
 
         private bool Initialize()
@@ -174,6 +179,6 @@ namespace SsdDetector
             PreprocessOutput = null;
 
             OutTensorArr = null;
-        }       
+        }
     }
 }

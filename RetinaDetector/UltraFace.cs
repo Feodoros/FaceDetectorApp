@@ -44,6 +44,7 @@ namespace RetinaDetector
 
         private Net _UltraFace;
         private UltraFaceParameter _ultraFaceParameter;
+        private readonly Pen _pen = new Pen(Color.FromArgb(255, 20, 200), 3);
 
         private int _ImageW;
         private int _ImageH;
@@ -51,6 +52,8 @@ namespace RetinaDetector
         public string DetectorName => "UltraFace";
 
         public string ConfigPath => Config.RetinaBinPath;
+
+        public Pen DrawPen => _pen;
 
         #endregion
 
@@ -401,8 +404,9 @@ namespace RetinaDetector
             return true;
         }
 
-        public void DetectFace(ref Bitmap bitmap)
+        public List<Face> DetectFaces(Bitmap bitmap)
         {
+            List<Face> faces = new List<Face>();
             using Image tempImage = new Bitmap(bitmap);
             string tempFilePath = Path.Combine(Environment.CurrentDirectory, "tmp.jpg");
             tempImage.Save(tempFilePath);
@@ -412,13 +416,15 @@ namespace RetinaDetector
             FaceInfo[] faceInfos = Detect(inMat).ToArray();
             File.Delete(tempFilePath);
 
-            using Graphics g = Graphics.FromImage(bitmap);
-            Pen pen = new Pen(Color.FromArgb(255, 125, 125), 2);
             foreach (FaceInfo detectedFace in faceInfos)
             {
-                Rectangle rectangle = Rectangle.FromLTRB((int)detectedFace.X1, (int)detectedFace.Y1, (int)detectedFace.X2, (int)detectedFace.Y2);
-                g.DrawRectangle(pen, rectangle);
+                faces.Add(new Face((int)detectedFace.X1,
+                                   (int)detectedFace.Y1,
+                                   (int)detectedFace.X2 - (int)detectedFace.X1,
+                                   (int)detectedFace.Y2 - (int)detectedFace.Y1,
+                                   _pen));
             }
+            return faces;
         }
     }
 }
