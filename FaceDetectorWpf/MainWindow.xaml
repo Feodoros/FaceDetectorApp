@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         ui:WindowHelper.UseModernWindowStyle="True"  
         ui:ThemeManager.RequestedTheme="Light"
-        Title="Detection method comparing" Height="450" Width="800"
+        Title="Detection method comparing" Height="626" Width="976"
         >
 
     <Window.Resources>
@@ -22,13 +22,14 @@
 
         <Grid Grid.Column="0">
             <Grid.RowDefinitions >
-                <RowDefinition Height="0.05*"/>
+                <RowDefinition Height="0.04*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <GridSplitter Width="5" Height="Auto" VerticalAlignment="Stretch" IsEnabled="False" Grid.Row="1" Grid.Column ="0" Background="Gray"/>
-            <Image x:Name="imageBox" Height="Auto" Width="Auto" VerticalAlignment="Top"  Grid.Column="0" Grid.Row="1"/>
-            <Menu Height="Auto" Width="Auto"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Background="LightGray">
+            <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" Grid.Column="0" Grid.Row="1">
+                <Image x:Name="imageBox" Height="Auto" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
+            </Border>
+            <Menu Height="Auto" Width="Auto"  Grid.Row="0" Grid.Column="0" Background="LightGray">
                 <MenuItem Height="Auto" Width="Auto" Header="Open" Click="OpenFile"/>
             </Menu>
         </Grid>
@@ -48,57 +49,115 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
 
-            <Viewbox x:Name="detectorsButtons" HorizontalAlignment="Left" Height="Auto" Grid.Column ="1" Grid.Row ="1" IsEnabled="{Binding Path=IsDetectorButtonsEnabled}">
+            <Viewbox Width="Auto" Height="Auto" x:Name="detectorsButtons" HorizontalAlignment="Center" Grid.Column ="1" Grid.Row ="1" IsEnabled="{Binding Path=IsDetectorButtonsEnabled}">
                 <Grid>
-                    <Grid.RowDefinitions >
-                        <RowDefinition Height="5*"/>
-                        <RowDefinition Height="5*"/>
-                        <RowDefinition Height="5*"/>
-                        <RowDefinition Height="5*"/>
-                    </Grid.RowDefinitions>
-                    <RadioButton 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+                        <RadioButton 
                         Margin="0,2,0,2"
                         Content="HaarCascade"
                         Grid.Row ="0"
                         x:Name="btnHaar"
                         Command="{Binding Path=ChooseDetectorCommand}"
                         CommandParameter="{Binding Path=Name, ElementName=btnHaar}"/>
-                    <RadioButton 
+                        <RadioButton 
                         Margin="0,2,0,2"
                         Content="MobileNet"
                         Grid.Row ="1"
                         x:Name="btnSsd"
                         Command="{Binding Path=ChooseDetectorCommand}"
                         CommandParameter="{Binding Path=Name, ElementName=btnSsd}"/>
-                    <RadioButton 
+                        <RadioButton 
                         Margin="0,2,0,2"
                         Content="UltraFace"
                         Grid.Row ="2"
                         x:Name="btnRetina"
                         Command="{Binding Path=ChooseDetectorCommand}"
                         CommandParameter="{Binding Path=Name, ElementName=btnRetina}"/>
-                    <RadioButton 
-                        Margin="0,2,0,2"
-                        Content="CenterFace"
-                        Grid.Row ="3"
-                        x:Name="btnCenter"
-                        Command="{Binding Path=ChooseDetectorCommand}"
-                        CommandParameter="{Binding Path=Name, ElementName=btnCenter}"/>
+                        <RadioButton 
+                            Margin="0,2,0,2"
+                            Visibility="Collapsed"
+                            Content="CenterFace"
+                            Grid.Row ="3"
+                            x:Name="btnCenter"
+                            Command="{Binding Path=ChooseDetectorCommand}"
+                            CommandParameter="{Binding Path=Name, ElementName=btnCenter}">
+                        </RadioButton>
+                    </Grid>
+                    <Grid Width="25" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+                        <CheckBox      
+                            IsEnabled="{Binding CanDrawHaar}"
+                            IsChecked="{Binding NeedHaarDrawing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Name="showHaar" 
+                            Width="25"
+                            Margin="0,2,0,2"
+                            Grid.Row="0" 
+                            Grid.Column="1"                            
+                            Command="{Binding Path=CheckDetectorCommand}"
+                            CommandParameter="{Binding Path=Name, ElementName=showHaar}"/>
+                        <CheckBox  
+                            IsEnabled="{Binding CanDrawSsd}"
+                            IsChecked="{Binding NeedSsdDrawing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Name="showSsd"
+                            Width="25"
+                            Content=""
+                            Margin="0,2,0,2"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Command="{Binding Path=CheckDetectorCommand}"
+                            CommandParameter="{Binding Path=Name, ElementName=showSsd}"/>
+                        <CheckBox 
+                            IsEnabled="{Binding CanDrawRetina}"
+                            IsChecked="{Binding NeedRetinaDrawing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Name="showRetina"
+                            Content=""
+                            Margin="0,2,0,2"
+                            Width="25"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Command="{Binding Path=CheckDetectorCommand}"
+                            CommandParameter="{Binding Path=Name, ElementName=showRetina}"/>
+                        <CheckBox 
+                            Name="showCenter"
+                            Content=""
+                            Visibility="Collapsed"
+                            Margin="0,2,0,2"
+                            Grid.Column="1"
+                            Width="25"
+                            Grid.Row="3"
+                            Command="{Binding Path=CheckDetectorCommand}"
+                            CommandParameter="{Binding Path=Name, ElementName=showCenter}"/>
+                    </Grid>
                 </Grid>
             </Viewbox>
 
-            <Label Name="elapsedTime" VerticalAlignment="Center" Content="Elapsed time: " Grid.Column ="1" Grid.Row ="2" Height="Auto" Width="Auto" FontSize="20"/>
+            <Label Name="elapsedTime" VerticalAlignment="Center" Content="Elapsed time: " Grid.Column ="1" Grid.Row ="2" FontSize="20"/>
 
-            <Viewbox Height="Auto" Width="Auto" HorizontalAlignment="Center" Grid.Column ="1" Grid.Row ="3" IsEnabled="{Binding Path=IsControlButtonsEnabled}">
+            <Viewbox Width="Auto" Height="Auto" HorizontalAlignment="Center" Grid.Column ="1" Grid.Row ="3" IsEnabled="{Binding Path=IsControlButtonsEnabled}">
                 <Grid>
                     <Grid.RowDefinitions >
                         <RowDefinition Height="5*"/>
                         <RowDefinition Height="5*"/>
                         <RowDefinition Height="5*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="btnAnalyze" Height="Auto" Width="Auto" Content="Analyze" Grid.Row ="0" Margin="0,2,0,2" Background="DarkGray" Command="{Binding Path=AnalyzeCommand}"/>
-                    <Button x:Name="btnSave" Height="Auto" Width="66" Content="Save"  Grid.Row ="1" Margin="0,2,0,2" Background="DarkGray"/>
-                    <Button x:Name="btnClear" Height="Auto" Width="66" Content="Clear" Grid.Row ="2" Margin="0,2,0,2" Background="DarkGray"/>
+                    <Button Width="Auto"  x:Name="btnAnalyze" Content="Analyze" Grid.Row ="0" Margin="0,2,0,2" Background="DarkGray" Command="{Binding Path=AnalyzeCommand}"/>
+                    <Button Width="66" x:Name="btnSave" Content="Save"  Grid.Row ="1" Margin="0,2,0,2" Background="DarkGray" Command="{Binding Path=SaveCommand}"/>
+                    <Button Width="66" x:Name="btnClear" Content="Clear" Grid.Row ="2" Margin="0,2,0,2" Background="DarkGray" Command="{Binding Path=ClearCommand}"/>
                 </Grid>
             </Viewbox>
         </Grid>
