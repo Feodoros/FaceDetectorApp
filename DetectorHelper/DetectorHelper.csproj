@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Face.cs" />
     <Compile Include="IDetector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
